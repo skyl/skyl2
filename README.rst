@@ -11,6 +11,7 @@ Modify the source
 =================
 
 #. Edit `feeder/templates/disqus.html` and put your `disqus_shortname` there.
+#. Change the git repo in deploy/roles/web/tasks.yml to your repo.
 
 Ship
 ====

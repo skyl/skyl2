@@ -2,11 +2,25 @@
   sudo: yes
   apt: pkg={{ item }} state=present
   with_items:
+    - build-essential
+    - libncurses5-dev
+    - git-core
     - python-pip
     - python-virtualenv
     - python-dev
     - nginx
 
-# I plan to deploy out of git. So, time for a first commit.
-#- git: the repo
-#- pip: requirements=/my_app/requirements.txt virtualenv=/my_app/venv
+- git: repo=https://github.com/skyl/skyl2.git dest=~/skyl2
+- pip: requirements=~/skyl2/requirements.txt virtualenv=~/venv
+- file: path=~/skyl2/data state=directory
+- copy: src=../data/db.sqlite3 dest=~/skyl2/data/db.sqlite3
+  ignore_errors: yes
+- template: src=local_settings.py.j2 dest=~/skyl2/local_settings.py
+# TODO: uwsgi logging?
+#- name: ensure uwsgi log file
+#  file: path=~/skyl2/uwsgi.log state=file
+- name: install uwsgi upstart
+  sudo: yes
+  template: src=uwsgi.conf.j2 dest=/etc/init/uwsgi.conf
+- service: name=uwsgi state=started enabled=yes
+  sudo: yes
