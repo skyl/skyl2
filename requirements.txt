@@ -1,0 +1,15 @@
+Django==1.6
+Jinja2==2.7.1
+MarkupSafe==0.18
+PyYAML==3.10
+Pygments==1.6
+Werkzeug==0.9.4
+boto==2.16.0
+django-extensions==1.2.5
+django-taggit==0.10
+docutils==0.11
+ipython==1.1.0
+readline==6.2.4.1
+six==1.4.1
+uWSGI==1.9.19
+wsgiref==0.1.2

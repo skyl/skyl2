@@ -1,0 +1,12 @@
+- name: install system deps
+  sudo: yes
+  apt: pkg={{ item }} state=present
+  with_items:
+    - python-pip
+    - python-virtualenv
+    - python-dev
+    - nginx
+
+# I plan to deploy out of git. So, time for a first commit.
+#- git: the repo
+#- pip: requirements=/my_app/requirements.txt virtualenv=/my_app/venv

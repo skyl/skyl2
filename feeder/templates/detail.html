@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load markup %}
+{% block content %}
+  <a href="/"><span class="glyphicon glyphicon-home right"></span></a>
+  <h1>{{ member.title }}</h1>
+  <h6>created: {{ member.created_dt }}</h6>
+  <h6>updated: {{ member.updated_dt }}</h6>
+  <h6>tags:
+    {% for tag in member.tags.all %}
+    <a href="/?tag={{ tag }}">{{ tag }}</a>
+    {% endfor %}
+  </h6>
+  {{ member.content|restructuredtext }}
+  {% include "disqus.html" %}
+{% endblock %}

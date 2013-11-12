@@ -1,0 +1,24 @@
+#ec2-run-instances ami-5460f964 -t t1.micro --region us-west-2
+# --key ${EC2_KEYPAIR_US_WEST_2}
+# 13.04
+
+# ansible-playbook provision.yml -e "key_name=skyl"
+
+- name: Provision
+  hosts: local
+  tasks:
+    - name: Provision an instance
+      local_action: ec2
+        key_name={{ key_name }}
+        group=default
+        instance_type=t1.micro
+        image=ami-5460f964
+        wait=true
+        count=1
+        region=us-west-2
+      register: ec2
+      when: provision == "yes"
+    - name: Add public IPs to host group
+      local_action: add_host hostname={{ item.public_ip }} groupname=ec2hosts
+      with_items: ec2.instances
+      when: provision == "yes"
