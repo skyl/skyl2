@@ -5,10 +5,9 @@ stop on runlevel [!2345] # stop when shutting down.
 
 script # execute this block as a script
     /home/ubuntu/venv/bin/uwsgi \
+    --wsgi-file /home/ubuntu/skyl2/wsgi.py \
     --virtualenv /home/ubuntu/venv \
     --chdir /home/ubuntu/skyl2/ \
-    -w wsgi \
     -p 2 \
-    -s :9000 \
-    --http 8080
+    --http :8080
 end script
