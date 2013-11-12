@@ -8,7 +8,9 @@
     - python-pip
     - python-virtualenv
     - python-dev
-    - nginx
+    - nginx-full
+    - uwsgi
+    - uwsgi-plugin-python
 
 - git: repo=https://github.com/skyl/skyl2.git dest=~/skyl2
 - pip: requirements=~/skyl2/requirements.txt virtualenv=~/venv
@@ -19,8 +21,21 @@
 # TODO: uwsgi logging?
 #- name: ensure uwsgi log file
 #  file: path=~/skyl2/uwsgi.log state=file
+# https://library.linode.com/web-servers/nginx/python-uwsgi/ubuntu-12.04-precise-pangolin
 - name: install uwsgi upstart
   sudo: yes
   template: src=uwsgi.conf.j2 dest=/etc/init/uwsgi.conf
-- service: name=uwsgi state=started enabled=yes
+- service: name=uwsgi state=restarted enabled=yes
   sudo: yes
+
+- django_manage: >
+    command=collectstatic
+    virtualenv=/home/ubuntu/venv
+    app_path=/home/ubuntu/skyl2/
+
+- template: src=nginx.j2 dest=/etc/nginx/sites-available/default
+  sudo: yes
+- service: name=nginx state=restarted enabled=yes
+  sudo: yes
+  # idk, wtf
+  ignore_errors: yes
