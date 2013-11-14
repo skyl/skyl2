@@ -10,7 +10,8 @@ a command or two.
 Features
 ========
 
-ReST in the admin with live preview. Syntax highlighting. Disqus comments.
+ReST editing with live preview. Syntax highlighting. jsMath. Disqus comments.
+Beauty. Elegance. Flexibility. Simplicity.
 
 Modify the source
 =================

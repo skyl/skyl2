@@ -19,8 +19,8 @@
 - template: src=local_settings.py.j2 dest=~/skyl2/local_settings.py
 - django_manage: >
     command=collectstatic
-    virtualenv=/home/ubuntu/venv
-    app_path=/home/ubuntu/skyl2/
+    virtualenv="{{ HOME }}"venv
+    app_path="{{ HOME }}"skyl2
 # DB
 - copy: src=../data/db.sqlite3 dest=~/skyl2/data/db.sqlite3
   tags: db
@@ -41,9 +41,14 @@
 - service: name=uwsgi state=started enabled=yes
   sudo: yes
   when: not git.changed
-- shell: "sudo service uwsgi restart"
+- service: name=uwsgi state=restarted enabled=yes
+  sudo: yes
   when: git.changed
 # NGINX
+- copy: src=crts/ssl-unified.crt dest=/etc/nginx/conf.d/ssl-unified.crt
+  sudo: yes
+- copy: src=crts/ssl.key dest=/etc/nginx/conf.d/ssl.key
+  sudo: yes
 - template: src=nginx.j2 dest=/etc/nginx/sites-available/default
   sudo: yes
 - service: name=nginx state=started enabled=yes

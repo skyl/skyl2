@@ -4,10 +4,10 @@ start on runlevel [2345] # start on all runlevels.
 stop on runlevel [!2345] # stop when shutting down.
 
 script # execute this block as a script
-    /home/ubuntu/venv/bin/uwsgi \
-    --wsgi-file /home/ubuntu/skyl2/wsgi.py \
-    --virtualenv /home/ubuntu/venv \
-    --chdir /home/ubuntu/skyl2/ \
+    {{ HOME }}venv/bin/uwsgi \
+    --wsgi-file {{ HOME }}skyl2/wsgi.py \
+    --virtualenv {{ HOME }}venv \
+    --chdir {{ HOME }}skyl2/ \
     -p 2 \
     --http :8080
 end script

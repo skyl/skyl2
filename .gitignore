@@ -4,3 +4,4 @@ local_settings.py*
 /data
 .DS_Store
 *.sublime*
+/deploy/crts
