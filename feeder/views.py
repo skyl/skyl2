@@ -6,10 +6,9 @@ from feeder.models import Member
 
 def home(request):
     tag = request.GET.get('tag', None)
+    members = Member.objects.filter(published=True)
     if tag:
-        members = Member.objects.filter(tags__name__in=[tag])
-    else:
-        members = Member.objects.all()
+        members = members.filter(tags__name__in=[tag])
     context = {
         'members': members,
         'tag': tag,

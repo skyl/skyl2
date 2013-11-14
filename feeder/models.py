@@ -51,3 +51,4 @@ class Member(models.Model):
 from docutils.parsers.rst import directives
 from .directives import Pygments
 directives.register_directive('sourcecode', Pygments)
+directives.register_directive('code-block', Pygments)

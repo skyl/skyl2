@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% load markup %}
+{% load markup static %}
+
 {% block content %}
   <a href="/"><span class="glyphicon glyphicon-home right"></span></a>
   <h1>{{ member.title }}</h1>
@@ -12,4 +13,10 @@
   </h6>
   {{ member.content|restructuredtext }}
   {% include "disqus.html" %}
+{% endblock %}
+
+{% block extrabody %}
+<script src="{% static "js/jsMath/easy/load.js" %}"></script>
+<script src="{% static "js/jsMath/jsMath-easy-load.js" %}"></script>
+<script src="{% static "js/jsMath/plugins/autoload.js" %}"></script>
 {% endblock %}
