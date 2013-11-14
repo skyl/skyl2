@@ -1,6 +1,6 @@
 (function(){
   var $ = django.jQuery;
-  var w = window.open();
+  var w = window.open("","","left=840,width=680,height=900");
   keyupf = function(ev){
     t = $(ev.currentTarget);
     s = t.val();

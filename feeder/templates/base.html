@@ -2,12 +2,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>{% block title %}skyl.org{% endblock %}</title>
   <link rel="stylesheet" type="text/css"
     href="{% static "css/bootstrap-glyphicons.css" %}" />
   <link rel="stylesheet" type="text/css"
     href="{% static "css/bootstrap.min.css" %}" />
   <link rel="stylesheet" type="text/css"
     href="{% static "css/native.css" %}" />
+  <link rel="stylesheet" type="text/css"
+    href="{% static "css/general.css" %}" />
     {% block extrahead %}{% endblock %}
 </head>
 <body>

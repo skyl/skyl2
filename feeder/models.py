@@ -38,6 +38,10 @@ class Member(models.Model):
         return reverse('detail', kwargs={"slug": self.slug})
     url = get_absolute_url
 
+    def edit_url(self):
+        u = reverse('admin:feeder_member_change', args=[self.id])
+        return u
+
     def publish(self):
         self.published = True
         t.statuses.update(self.gen_tweet())

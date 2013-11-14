@@ -13,6 +13,7 @@
     #- uwsgi-plugin-python
 # REPO
 - git: repo=https://github.com/skyl/skyl2.git dest=~/skyl2
+  register: git
 - pip: requirements=~/skyl2/requirements.txt virtualenv=~/venv
 - file: path=~/skyl2/data state=directory
 - template: src=local_settings.py.j2 dest=~/skyl2/local_settings.py
@@ -36,10 +37,14 @@
 - name: install uwsgi upstart
   sudo: yes
   template: src=uwsgi.conf.j2 dest=/etc/init/uwsgi.conf
-- service: name=uwsgi state=restarted enabled=yes
+#- pause: seconds=2
+- service: name=uwsgi state=started enabled=yes
   sudo: yes
+  when: not git.changed
+- shell: "sudo service uwsgi restart"
+  when: git.changed
 # NGINX
 - template: src=nginx.j2 dest=/etc/nginx/sites-available/default
   sudo: yes
-- service: name=nginx state=restarted enabled=yes
+- service: name=nginx state=started enabled=yes
   sudo: yes
