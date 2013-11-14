@@ -21,6 +21,7 @@
     command=collectstatic
     virtualenv="{{ HOME }}"venv
     app_path="{{ HOME }}"skyl2
+
 # DB
 - copy: src=../data/db.sqlite3 dest=~/skyl2/data/db.sqlite3
   tags: db
@@ -29,21 +30,26 @@
   tags: db
   when: db == "pull"
 
-# TODO: uwsgi logging?
-#- name: ensure uwsgi log file
-#  file: path=~/skyl2/uwsgi.log state=file
-# https://library.linode.com/web-servers/nginx/python-uwsgi/ubuntu-12.04-precise-pangolin
 # UWSGI
 - name: install uwsgi upstart
   sudo: yes
   template: src=uwsgi.conf.j2 dest=/etc/init/uwsgi.conf
-#- pause: seconds=2
 - service: name=uwsgi state=started enabled=yes
   sudo: yes
   when: not git.changed
-- service: name=uwsgi state=restarted enabled=yes
+# TODO: why upstart and ansible no jive?
+#- service: name=uwsgi state=restarted enabled=yes
+#  sudo: yes
+#  when: git.changed
+- shell: "sudo service uwsgi stop"
   sudo: yes
   when: git.changed
+- pause: seconds=2
+  when: git.changed
+- shell: "sudo service uwsgi start"
+  sudo: yes
+  when: git.changed
+
 # NGINX
 - copy: src=crts/ssl-unified.crt dest=/etc/nginx/conf.d/ssl-unified.crt
   sudo: yes
