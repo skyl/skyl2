@@ -9,6 +9,7 @@
     - python-virtualenv
     - python-dev
     - nginx-full
+    - varnish
 # REPO
 - git: repo=https://github.com/skyl/skyl2.git dest=~/skyl2
   register: git
@@ -19,6 +20,7 @@
     command=collectstatic
     virtualenv="{{ HOME }}"venv
     app_path="{{ HOME }}"skyl2
+  when: git.changed
 
 # DB
 - copy: src=../data/db.sqlite3 dest=~/skyl2/data/db.sqlite3
@@ -32,28 +34,50 @@
 - name: install uwsgi upstart
   sudo: yes
   template: src=uwsgi.conf.j2 dest=/etc/init/uwsgi.conf
+  register: uwsgi_conf
 - service: name=uwsgi state=started enabled=yes
   sudo: yes
-  when: not git.changed
+  when: not git.changed and not uwsgi_conf.changed
 # TODO: why upstart and ansible no jive?
 #- service: name=uwsgi state=restarted enabled=yes
 #  sudo: yes
 #  when: git.changed
 - shell: "sudo service uwsgi stop"
   sudo: yes
-  when: git.changed
+  when: git.changed or uwsgi_conf.changed
 - pause: seconds=2
   when: git.changed
 - shell: "sudo service uwsgi start"
   sudo: yes
-  when: git.changed
+  when: git.changed or uwsgi_conf.changed
 
 # NGINX
 - copy: src=crts/ssl-unified.crt dest=/etc/nginx/conf.d/ssl-unified.crt
   sudo: yes
+  register: crt
 - copy: src=crts/ssl.key dest=/etc/nginx/conf.d/ssl.key
   sudo: yes
+  register: key
 - template: src=nginx.j2 dest=/etc/nginx/sites-available/default
   sudo: yes
+  register: nginx
 - service: name=nginx state=started enabled=yes
   sudo: yes
+  when: not crt.changed and not key.changed and not nginx.changed
+- service: name=nginx state=restarted enabled=yes
+  sudo: yes
+  when: crt.changed or key.changed or nginx.changed
+
+# Varnish
+- template: src=varnish.j2 dest=/etc/default/varnish
+  sudo: yes
+  register: varnish_config
+- template: src=default.vcl.j2 dest=/etc/varnish/default.vcl
+  sudo: yes
+  register: vcl
+- service: name=varnish state=started enabled=yes
+  sudo: yes
+  when: not varnish_config.changed and not vcl.changed
+- service: name=varnish state=restarted enabled=yes
+  sudo: yes
+  when: varnish_config.changed or vcl.changed
