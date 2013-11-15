@@ -5,9 +5,13 @@
 
 {% block content %}
 <div class="detail-content">
-  <a href="/"><span class="glyphicon glyphicon-home right"></span></a>
+  <a href="/">
+    <span class="glyphicon glyphicon-home pull-right"></span>
+  </a>
   {% if user.is_authenticated %}
-  <a href="{{ member.edit_url }}"><span class="glyphicon glyphicon-edit right"></span></a>
+  <a href="{{ member.edit_url }}">
+    <span class="glyphicon glyphicon-edit pull-right"></span>
+  </a>
   {% endif %}
   <h1>{{ member.title }}</h1>
   <h6>created: {{ member.created_dt }}</h6>
@@ -17,6 +21,20 @@
     {% endfor %}
   </h6>
   {{ member.content|restructuredtext }}
+  {% if member.previous_post %}
+  <div class="pull-left span2">
+    <a href="{{ member.previous_post.url }}">
+      <span class="glyphicon glyphicon-circle-arrow-left"></span>
+    </a>
+  </div>
+  {% endif %}
+  {% if member.next_post %}
+  <div class="pull-right">
+    <a href="{{ member.next_post.url }}">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  </div>
+  {% endif %}
   {% include "disqus.html" %}
 </div>
 {% endblock %}

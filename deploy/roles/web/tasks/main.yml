@@ -9,8 +9,6 @@
     - python-virtualenv
     - python-dev
     - nginx-full
-    #- uwsgi
-    #- uwsgi-plugin-python
 # REPO
 - git: repo=https://github.com/skyl/skyl2.git dest=~/skyl2
   register: git

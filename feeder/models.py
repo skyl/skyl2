@@ -29,6 +29,12 @@ class Member(models.Model):
     def __unicode__(self):
         return self.title
 
+    @classmethod
+    def pks(cls):
+        return list(
+            cls.objects.filter(published=True).values_list('pk', flat=1)
+        )
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
@@ -50,6 +56,21 @@ class Member(models.Model):
     def gen_tweet(self):
         # TODO
         return self.title
+
+    def previous_post(self):
+        ms = Member.pks()
+        this = ms.index(self.pk)
+        prev = ms[this + 1]
+        return Member.objects.get(pk=prev)
+
+    def next_post(self):
+        ms = Member.pks()
+        this = ms.index(self.pk)
+        if this == 0:
+            return
+        next = ms[this - 1]
+        return Member.objects.get(pk=next)
+
 
 
 from docutils.parsers.rst import directives
