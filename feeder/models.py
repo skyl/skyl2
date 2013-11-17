@@ -9,6 +9,15 @@ from taggit.managers import TaggableManager
 t = settings.TWITTER
 
 
+def exc_return_none(f):
+    def d(*args, **kwargs):
+        try:
+            return f(*args, **kwargs)
+        except:
+            return None
+    return d
+
+
 class Member(models.Model):
     """
     Piece of content.
@@ -57,12 +66,14 @@ class Member(models.Model):
         # TODO
         return self.title
 
+    @exc_return_none
     def previous_post(self):
         ms = Member.pks()
         this = ms.index(self.pk)
         prev = ms[this + 1]
         return Member.objects.get(pk=prev)
 
+    @exc_return_none
     def next_post(self):
         ms = Member.pks()
         this = ms.index(self.pk)
@@ -72,8 +83,11 @@ class Member(models.Model):
         return Member.objects.get(pk=next)
 
 
-
 from docutils.parsers.rst import directives
-from .directives import Pygments
+from .directives.pyg import Pygments
+from .directives.youtube import youtube
+from .directives.mp3 import MP3
 directives.register_directive('sourcecode', Pygments)
 directives.register_directive('code-block', Pygments)
+directives.register_directive('youtube', youtube)
+directives.register_directive('mp3', MP3)

@@ -1,9 +1,9 @@
 (function(){
   var $ = django.jQuery;
-  var w = window.open("","","left=840,width=680,height=900");
-  keyupf = function(ev){
-    t = $(ev.currentTarget);
-    s = t.val();
+  var w = window.open("","","scrollbars=1,left=840,width=580,height=900");
+  changef = function(ev){
+    var t = $(ev.currentTarget);
+    var s = t.val();
     $.ajax({
       url: "/preview_rst",
       type: "POST",
@@ -19,6 +19,6 @@
     window.onunload = function(){
       w.close();
     };
-    $('textarea#id_content').keyup(keyupf).keyup();
+    $('textarea#id_content').change(changef).change();
   });
 })();

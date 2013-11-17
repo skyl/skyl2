@@ -10,7 +10,9 @@ a command or two.
 Features
 ========
 
-ReST editing with live preview. Syntax highlighting. jsMath. Disqus comments.
+ReST editing with live preview.
+Syntax highlighting. jsMath. Disqus comments.
+videos. media.
 Beauty. Elegance. Flexibility. Simplicity.
 
 Modify the source
@@ -20,20 +22,28 @@ Modify the source
 * Change the git repo in deploy/roles/web/tasks.yml to your repo.
 * Put in your local_settings.py.j2 template
 
-This will need a `SECRET_KEY` and lives at
-`deploy/roles/web/templates/local_settings.py.j2`
+`local_settings.py.j2` will need a `SECRET_KEY`.
+This file lives at `deploy/roles/web/templates/local_settings.py.j2`
 
 .. sourcecode:: python
 
     SECRET_KEY = 'gobbledygook'
-    OAUTH_TOKEN = "Twitter key"
-    OAUTH_SECRET = "Twitter oauth secret"
-    CONSUMER_KEY = "Twitter consumer"
-    CONSUMER_SECRET = "stuff"
-    from twitter import Twitter, OAuth
-    TWITTER = Twitter(
-        auth=OAuth(OAUTH_TOKEN, OAUTH_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
-    )
+
+..
+
+    Currently, you also need twitter api credentials.
+    But, this requirement should be removed
+
+    .. sourcecode:: python
+
+        OAUTH_TOKEN = "Twitter key"
+        OAUTH_SECRET = "Twitter oauth secret"
+        CONSUMER_KEY = "Twitter consumer"
+        CONSUMER_SECRET = "stuff"
+        from twitter import Twitter, OAuth
+        TWITTER = Twitter(
+            auth=OAuth(OAUTH_TOKEN, OAUTH_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
+        )
 
 
 Ship
@@ -64,7 +74,7 @@ to save the json output of the provisioning task somewhere.
 There are a lot of nuances to AWS permissions/regions/etc
 which are beyond the scope of this readme.
 
-Put your .pem identity file into your .ssh/config, perhaps
+Put the path to your .pem identity file into your .ssh/config, perhaps
 
 .. sourcecode::
 

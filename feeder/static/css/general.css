@@ -39,3 +39,31 @@ span.glyphicon {
     padding-right: 0;
 }
 */
+
+.youtube-embed, .mp3-embed {
+    /*float: right;*/
+    margin: 1em auto;
+    display: block;
+}
+h1 {
+    font-size: 2.25em;
+}
+
+.document h1 {
+    font-size: 1.75em;
+}
+.document h2 {
+    font-size: 1.5em;
+}
+.document h3 {
+    font-size: 1.25em;
+}
+.document h4 {
+    font-size: 1.125em;
+}
+.document h5 {
+    font-size: 1em;
+}
+.document h6 {
+    font-size: 0.75em;
+}

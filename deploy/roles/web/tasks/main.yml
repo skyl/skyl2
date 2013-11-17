@@ -26,6 +26,7 @@
 - copy: src=../data/db.sqlite3 dest=~/skyl2/data/db.sqlite3
   tags: db
   when: db == "push"
+  register: db
 - fetch: dest=../data/db.sqlite3 src=~/skyl2/data/db.sqlite3
   tags: db
   when: db == "pull"
@@ -81,3 +82,7 @@
 - service: name=varnish state=restarted enabled=yes
   sudo: yes
   when: varnish_config.changed or vcl.changed
+- name: clear varnish cache
+  shell: 'sudo varnishadm "ban req.url ~ /"'
+  sudo: yes
+  when: db.changed or git.changed
