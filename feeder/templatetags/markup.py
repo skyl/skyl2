@@ -8,9 +8,6 @@ register = template.Library()
 
 @register.filter(is_safe=True)
 def restructuredtext(value):
-    import warnings
-    warnings.warn('The restructuredtext filter has been deprecated',
-                  category=DeprecationWarning)
     from docutils.core import publish_parts
     docutils_settings = getattr(
         settings, "RESTRUCTUREDTEXT_FILTER_SETTINGS", {})

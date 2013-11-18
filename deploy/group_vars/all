@@ -1,2 +1,3 @@
 db: ""
+db_result: {"changed": false}
 HOME: "/home/ubuntu/"
