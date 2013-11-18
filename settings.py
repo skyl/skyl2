@@ -14,6 +14,8 @@ INSTALLED_APPS = (
     'django_extensions',
     'taggit',
     'feeder',
+    # just to get the static files
+    'deploy',
 )
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -41,9 +43,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "skyl2/static")
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-    os.path.join(BASE_DIR, "deploy/static"),
-)
 
 from local_settings import *

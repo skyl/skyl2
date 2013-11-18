@@ -16,7 +16,7 @@
 - pip: requirements=~/skyl2/requirements.txt virtualenv=~/venv
 - file: path=~/skyl2/data state=directory
 - template: src=local_settings.py.j2 dest=~/skyl2/local_settings.py
-- synchronize: src=./media dest=~/skyl2/static/media
+- synchronize: src=./static/media/ dest=~/skyl2/static/media
   register: media
 - django_manage: >
     command=collectstatic
