@@ -16,6 +16,8 @@
 - pip: requirements=~/skyl2/requirements.txt virtualenv=~/venv
 - file: path=~/skyl2/data state=directory
 - template: src=local_settings.py.j2 dest=~/skyl2/local_settings.py
+- synchronize: src=./media dest=~/skyl2/static/media
+  register: media
 - django_manage: >
     command=collectstatic
     virtualenv="{{ HOME }}"venv
@@ -86,4 +88,4 @@
 - name: clear varnish cache
   shell: 'sudo varnishadm "ban req.url ~ /"'
   sudo: yes
-  when: db_result.changed or git.changed
+  when: db_result.changed or git.changed or media.changed

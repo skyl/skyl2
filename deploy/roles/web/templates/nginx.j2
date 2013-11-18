@@ -1,6 +1,6 @@
 server {
-    listen              8080;
-    listen              443 ssl;
+    listen 8080;
+    listen 443 ssl;
     ssl_certificate /etc/nginx/conf.d/ssl-unified.crt;
     ssl_certificate_key /etc/nginx/conf.d/ssl.key;
     location / {
@@ -10,10 +10,9 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
     location /static {
-        root   {{ HOME }}skyl2/;
-        autoindex  on;
+        root {{ HOME }}skyl2/;
+        autoindex on;
     }
     location /favicon.ico { alias {{ HOME }}skyl2/static/favicon.ico; }
     location /robots.txt { alias {{ HOME }}skyl2/static/robots.txt; }
 }
-
