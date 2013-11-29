@@ -87,7 +87,7 @@ from docutils.parsers.rst import directives
 from .directives.pyg import Pygments
 from .directives.youtube import youtube
 from .directives.mp3 import MP3
-from .directives.raw import Venn
+from .directives.venn import Venn
 directives.register_directive('sourcecode', Pygments)
 directives.register_directive('code-block', Pygments)
 directives.register_directive('youtube', youtube)
