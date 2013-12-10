@@ -1,3 +1,4 @@
+from django import http
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
 
@@ -18,6 +19,9 @@ def home(request):
 
 def detail(request, slug):
     member = get_object_or_404(Member, slug=slug)
+    if not member.published and not request.user.is_authenticated():
+        return http.HttpResponseForbidden("sorry")
+
     context = {
         'member': member,
     }
