@@ -6,8 +6,6 @@ from django.conf import settings
 
 from taggit.managers import TaggableManager
 
-t = settings.TWITTER
-
 
 def exc_return_none(f):
     def d(*args, **kwargs):
@@ -59,7 +57,8 @@ class Member(models.Model):
 
     def publish(self):
         self.published = True
-        t.statuses.update(self.gen_tweet())
+        #t = settings.TWITTER
+        #t.statuses.update(self.gen_tweet())
         self.save()
 
     def gen_tweet(self):

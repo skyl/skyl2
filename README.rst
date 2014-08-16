@@ -29,23 +29,6 @@ This file lives at `deploy/roles/web/templates/local_settings.py.j2`
 
     SECRET_KEY = 'gobbledygook'
 
-..
-
-    Currently, you also need twitter api credentials.
-    But, this requirement should be removed
-
-    .. sourcecode:: python
-
-        OAUTH_TOKEN = "Twitter key"
-        OAUTH_SECRET = "Twitter oauth secret"
-        CONSUMER_KEY = "Twitter consumer"
-        CONSUMER_SECRET = "stuff"
-        from twitter import Twitter, OAuth
-        TWITTER = Twitter(
-            auth=OAuth(OAUTH_TOKEN, OAUTH_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
-        )
-
-
 Ship
 ====
 
