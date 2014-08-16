@@ -25,11 +25,11 @@
   when: git.changed
 
 # DB
-- copy: src=../data/db.sqlite3 dest=~/skyl2/data/db.sqlite3
+- copy: src=../data/db.sqlite3 dest=/home/ubuntu/skyl2/data/db.sqlite3 flat=true
   tags: db
   when: db == "push"
   register: db_result
-- fetch: dest=../data/db.sqlite3 src=~/skyl2/data/db.sqlite3
+- fetch: dest=../data/db.sqlite3 src=/home/ubuntu/skyl2/data/db.sqlite3 flat=true
   tags: db
   when: db == "pull"
 
